@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--0: 引入 vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--0: 引入 axios.js -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app3">
+            用户<input  type="text" v-model="uname"> 
+            密码<input type="text" v-model="upwd">
+            邮箱<input type="text" v-model="email">
+            电话<input type="text" v-model="phone">
+            <button @click.prevent="register">注册</button>
+    </div>
+
+<script>
+    //配合axios调用时的基本URL
+    axios.defaults.baseURL="http://115.159.160.93:8080";
+    var vm=new Vue({
+        el:"#app3",
+        data:{
+               isLogin:false,
+               uname:"dingding",
+               upwd:"123456",
+               email:"",
+               phone:"",
+        },
+        methods:{
+            logout(){
+                console.log("logout.....");
+                this.isLogin=false;
+            },
+            login(){
+                let uname=this.uname;
+                let upwd=this.upwd;
+                let email=this.email;
+                let phone=this.phone;
+                // this.isLogin=true;
+                axios.post("/user/login",{uname,upwd,email,phone}).then(result=>{
+                    console.log(result.data);
+                    if(result.data.code==200){
+                        console.log(`用户"${uname}"注册成功`)
+                        
+                    }else{
+                        console.log(`用户"${uname}"注册不成功`) 
+                    }
+                })
+            }
+           
+        }
+    })
+
+</script>
+</body>
+</html>
